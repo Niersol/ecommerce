@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -19,11 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-
-
 
 
 # Application definition
@@ -39,39 +35,41 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'djoser',
-    'playground',
+    'silk',
     'debug_toolbar',
     'store',
     'tags',
     'likes',
     'core',
-    'silk'  
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 # if DEBUG:
-#     MIDDLEWARE +=  ['silk.middleware.SilkyMiddleware']
+#     MIDDLEWARE += ['silk.middleware.SilkyMiddleware']
 
 INTERNAL_IPS = [
     # ...
     '127.0.0.1',
     # ...
 ]
+
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8001',
     'http://127.0.0.1:8001',
 ]
+
 ROOT_URLCONF = 'storefront.urls'
 
 TEMPLATES = [
@@ -91,10 +89,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'storefront.wsgi.application'
-
-
-
-
 
 
 # Password validation
@@ -134,9 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -164,44 +159,43 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1)
 }
 
-DEFAULT_FROM_EMAIL = '2122yahooo@gmail.com'
+DEFAULT_FROM_EMAIL = 'from@moshbuy.com'
 
 ADMINS = [
-    ('Anas','admin@yahoo.com')
+    ('Mosh', 'admin@moshbuy.com')
 ]
+
 CELERY_BEAT_SCHEDULE = {
-    'notify_customers':{
-        'task':'playground.tasks.notify_customers',
+    'notify_customers': {
+        'task': 'playground.tasks.notify_customers',
         'schedule': 5,
-        'args':['hello world '],
+        'args': ['Hello World'],
     }
 }
 
-
 LOGGING = {
-    'version' : 1 ,
-    'disable_existing_loggers':False,
-    'handlers':{
-        'console':{
-            'class':"logging.StreamHandler",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler'
         },
-        'file':{
-            'class':"logging.FileHandler",
-            'filename':'general.log',
-            'formatter':'verbose'
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'verbose'
         }
     },
-    'loggers':{
-        '':{
-            'handlers':['console','file'],
-            'level':os.environ.get('DJANGO_LOG_LEVEL','INFO')
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO')
         }
     },
-    'formatters':{
-        'verbose':{
-            'format':'{asctime}({levelname}) - {name}-{message}',
-            'style':'{'
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} ({levelname}) - {name} - {message}',
+            'style': '{'
         }
     }
-
 }
