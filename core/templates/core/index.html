@@ -1,15 +1,73 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
+    <title>Welcome to Our Website</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #2c3e50;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #2980b9;
+        }
+    </style>
 </head>
 <body>
-    <div class="home-page">
-        <img src="{% static 'core/logo.svg' %}" alt="Logo" class = "logo">
-    </div>
+
+    <header>
+        <h1>Welcome to Ecomerce Backend </h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'products-list' %}">Products</a>
+        <a href="{% url 'collection-list' %}">Collections</a>
+        <a href="{% url 'cart-list' %}">Carts</a>
+        <a href="{% url 'customer-list' %}">Customers</a>
+        <a href="{% url 'orders-list' %}">Orders</a>
+        <a href="{% url 'jwt-create' %}">Log In</a>
+        <a href="{% url 'user-list' %}">Users</a>
+        <!-- Add links for nested routes if needed -->
+
+    </nav>
+
+    <main>
+        <p>
+            Thank you for visiting our website! Explore the links above to learn more about us and our services.
+        </p>
+    </main>
+
 </body>
 </html>
