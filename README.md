@@ -105,9 +105,6 @@ Welcome to the Django Ecommerce API project! This project serves as a fully func
    - Django REST Framework: Utilized for building robust APIs.
    - Django Filter: Employed for implementing filters in API views.
 
-## Getting Started
-
-To set up and run this project on your local machine, follow the instructions provided in the README.md file. Detailed steps include cloning the repository, activating the virtual environment, installing dependencies, performing database migrations, creating an admin identity, and running the development server.
 
 ## Contribution Guidelines
 
